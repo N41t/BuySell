@@ -4,14 +4,20 @@
     <title>BUYSELL</title>
 </head>
 <body>
-<h1>BUYSELL | <a href="/login">Войти</a> </h1><hr>
-<form action="/logout" method="post">
-    <input type="hidden" name="_csrf" value="${_csrf.token}">
-    <input type="submit" value="Выйти из аккаунта">
-</form>
+<h1>BUYSELL</h1><hr>
+<#if user.email?? >
+    <h3>Имя пользователя: <i>${user.name}</i></h3>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="${_csrf.token}">
+        <input type="submit" value="Выйти">
+    </form>
+<#else>
+    <a href="/login">Войти</a><hr>
+</#if>
+
 <h4>Товары со всей России</h4>
 <form action="/" method="get">
-    Поиск по названию объявления: <input type="text" name="title"><br>
+    Поиск по названию объявления: <input type="text" name="title">
     <input type="submit" value="Поиск"/>
 </form>
 <br>
@@ -25,6 +31,8 @@
     <#else>
     <h3>Товаров нет</h3>
 </#list>
+
+<#if user.email??>
 <hr>
 <h3>Создать новый товар</h3>
 <form action="/product/create" method="post" enctype="multipart/form-data">
@@ -32,12 +40,12 @@
     Описание объявления: <input type="text" name="description"/><br><br>
     Цена: <input type="number" name="price"/><br><br>
     Город: <input type="text" name="city"/><br><br>
-    Имя: <input type="text" name="author"/><br><br>
     Первое фото: <input type="file" name="file1"/><br><br>
     Второе фото: <input type="file" name="file2"/><br><br>
     Третье фото: <input type="file" name="file3"/><br><br>
-
+    <input type="hidden" name="_csrf" value="${_csrf.token}">
     <input type="submit" value="Добавить товар"/>
 </form>
+</#if>
 </body>
 </html>
